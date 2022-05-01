@@ -33,7 +33,7 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--secondery-color);
+  background-color: var(--secondary-color);
   border-radius: 0.3rem;
 }
 
