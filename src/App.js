@@ -14,7 +14,6 @@ import ScrolltoTop from "components/ScrolltoTop";
 const App = () => {
   return (
     <div>
-      <ScrolltoTop />
       <Home />
       <Services />
       <Portfolio />
@@ -26,6 +25,7 @@ const App = () => {
       <Skills />
       <Contact />
       <Footer />
+      <ScrolltoTop />
     </div>
   );
 };
