@@ -5,34 +5,48 @@ import service2 from "assets/service2.png";
 import service3 from "assets/service3.png";
 import play from "assets/play.png";
 import Title from "./Title";
+import { useScroll } from "components/useScroll";
+import { motion } from "framer-motion";
+import { servicesAnimations } from "animation";
 
-const Services = () => {
+function Services() {
+  const [element, controls] = useScroll();
+
   const data = [
     {
       type: "Blowout",
-      text: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      img: service1,
+      text: "Shampoo and blow dry. If you are looking to celebrate your special day with us, please note we only have 3 stylists scheduled",
+      image: service1,
+    },
+    {
+      type: "Olaplex",
+      text: "Hair treatment helping keep coloured hair healthy from the inside If you are looking to celebrate your special day with us.",
+      image: service2,
     },
     {
       type: "Retouch",
-      text: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      img: service2,
-    },
-    {
-      type: "Striker",
-      text: "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
-      img: service3,
+      text: "We bring to you a bouquet of services to remain worry free about your looks. We have made effortless beauty equipment and products.",
+      image: service3,
     },
   ];
   return (
-    <Section id="services">
+    <Section id="services" ref={element}>
       <Title value="services" />
       <div className="services">
-        {data.map(({ type, text, img }, index) => {
+        {data.map(({ type, text, image }, index) => {
           return (
-            <div className="services__service">
+            <motion.div
+              className="services__service"
+              variants={servicesAnimations}
+              animate={controls}
+              transition={{
+                delay: 0.03,
+                type: "tween",
+                duration: 0.8,
+              }}
+            >
               <div className="services__service__image">
-                <img src={img} alt="Service" />
+                <img src={image} alt="Service" />
               </div>
               <div className="services__service__title">
                 <span>0{index + 1}</span>
@@ -40,20 +54,20 @@ const Services = () => {
               </div>
               <p className="services__service__description">{text}</p>
               <img src={play} alt="Readmore" />
-            </div>
+            </motion.div>
           );
         })}
       </div>
     </Section>
   );
-};
+}
 
 const Section = styled.section`
   min-height: 100vh;
   .services {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    aling-items: center;
+    align-items: center;
     height: 100%;
     margin: 0 14rem;
     margin-top: 10rem;
@@ -89,6 +103,15 @@ const Section = styled.section`
       &__description {
         color: var(--primary-color);
         margin-bottom: 2rem;
+      }
+    }
+  }
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
+    .services {
+      margin: 2rem 0;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 0 2rem;
     }
   }
 `;

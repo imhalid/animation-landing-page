@@ -3,35 +3,48 @@ import styled from "styled-components";
 import play from "assets/play.png";
 import home from "assets/home.jpg";
 import Title from "./Title";
+import { motion } from "framer-motion";
+import { useScroll } from "./useScroll";
+import { blogsAnimation } from "animation";
 
-const Blog = () => {
+function Blog() {
+  const [element, controls] = useScroll();
   const blogsData = [
     {
       title: "PARLOUR JOURNAL",
       type: "SPA",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Our blog is intended to help answer your hair related questions and provide information about healthy hair choices and products.",
     },
     {
-      title: "REFELXION SKY",
+      title: "REFELXOLOGY SKY",
       type: "Relax",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Reflexologists believe that these reflex points, pressing them creates real benefits for the person's health. If you have any questions, please email",
     },
     {
-      title: "MEDITION JOURNAL",
+      title: "MEDITATION SUN",
       type: "Yoga",
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Keep your body and mind it pure and clean for the soul to reside in. Our Spa Offer yoga classes in areas. creates real benefits for the person's health.",
     },
   ];
   return (
-    <Section id="blog">
+    <Section id="blog" ref={element}>
       <Title value="Blog" />
       <div className="blogs">
         {blogsData.map(({ title, type, description }) => {
           return (
-            <div className="blog">
+            <motion.div
+              className="blog"
+              variants={blogsAnimation}
+              animate={controls}
+              transition={{
+                delay: 0.03,
+                type: "tween",
+                duration: 0.8,
+              }}
+            >
               <div className="image"></div>
               <div className="title">
                 <h3>{title}</h3>
@@ -41,16 +54,16 @@ const Blog = () => {
                 <p>{description}</p>
               </div>
               <div className="more">
-                <img src={play} alt="play" />
+                <img src={play} alt="Play" />
                 <span>Read More</span>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
     </Section>
   );
-};
+}
 
 const Section = styled.section`
   min-height: 100vh;
@@ -83,7 +96,7 @@ const Section = styled.section`
         font-weight: bolder;
         text-transform: uppercase;
       }
-      .decscription {
+      .description {
         height: 10rem;
         color: var(--primary-color);
       }
@@ -94,10 +107,18 @@ const Section = styled.section`
         cursor: pointer;
         span {
           letter-spacing: 0.1rem;
+          text-transform: uppercase;
           color: var(--primary-color);
-          text-transformation: uppercase;
         }
       }
+    }
+  }
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
+    margin: 2rem 0;
+    .blogs {
+      padding: 0 2rem;
+      grid-template-columns: 1fr;
+      margin: 0 1rem;
     }
   }
 `;

@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import loadmore from "assets/loadmore.png";
 import styled from "styled-components";
+import { motion } from "framer-motion";
+import { useScroll } from "./useScroll";
+import { testimonialsAnimations } from "animation";
 
-const Testimonials = () => {
+function Testimonials() {
+  const [element, controls] = useScroll();
   const [selected, setSelected] = useState(0);
   const testimonials = [
     {
@@ -25,9 +29,18 @@ const Testimonials = () => {
     },
   ];
   return (
-    <Section>
+    <Section ref={element}>
       <div className="container">
-        <div className="testimonials">
+        <motion.div
+          className="testimonials"
+          variants={testimonialsAnimations}
+          animate={controls}
+          transition={{
+            delay: 0.03,
+            type: "tween",
+            duration: 0.8,
+          }}
+        >
           {testimonials.map(({ designation, name, review }, index) => {
             return (
               <div
@@ -38,42 +51,51 @@ const Testimonials = () => {
               >
                 <div className="image">
                   <div className="circle2">
-                    <img src={loadmore} alt="loadmore" />
+                    <img src={loadmore} alt="Loadmore" />
                   </div>
                 </div>
                 <div className="title-container">
                   <span className="designation">{designation}</span>
                   <h3 className="title">{name}</h3>
                 </div>
-                <p className="review">{review}</p>
+                <p className="description">{review}</p>
               </div>
             );
           })}
-        </div>
-        <div className="controls">
+        </motion.div>
+        <motion.div
+          className="controls"
+          variants={testimonialsAnimations}
+          animate={controls}
+          transition={{
+            delay: 0.03,
+            type: "tween",
+            duration: 0.8,
+          }}
+        >
           <button
-            className={selected === 0 ? "active" : "hidden"}
+            className={selected === 0 ? "active" : ""}
             onClick={() => {
               setSelected(0);
             }}
           ></button>
           <button
-            className={selected === 1 ? "active" : "hidden"}
+            className={selected === 1 ? "active" : ""}
             onClick={() => {
               setSelected(1);
             }}
           ></button>
           <button
-            className={selected === 2 ? "active" : "hidden"}
+            className={selected === 2 ? "active" : ""}
             onClick={() => {
               setSelected(2);
             }}
           ></button>
-        </div>
+        </motion.div>
       </div>
     </Section>
   );
-};
+}
 
 const Section = styled.section`
   overflow: hidden;
@@ -131,6 +153,22 @@ const Section = styled.section`
       .active {
         background-color: transparent;
         border: 0.1rem solid var(--secondary-color);
+      }
+    }
+  }
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
+    .background {
+      display: none;
+    }
+    .container {
+      padding: 4rem 0;
+      .testimonials {
+        width: 80%;
+        .testimonial {
+          .description {
+            height: 18rem;
+          }
+        }
       }
     }
   }

@@ -1,32 +1,36 @@
+import React from "react";
 import styled from "styled-components";
 import Title from "./Title";
+import { motion } from "framer-motion";
+import { useScroll } from "./useScroll";
+import { skillsBarAnimation } from "animation";
 
-const Skills = () => {
+function Skills() {
+  const [element, controls] = useScroll();
   const skillsData = [
     {
-      name: "HTML5",
-      level: "90",
+      name: "Facial",
+      amount: 75,
     },
     {
-      name: "CSS3",
-      level: "79",
+      name: "Skin",
+      amount: 50,
     },
     {
-      name: "JavaScript",
-      level: "90",
+      name: "SPA",
+      amount: 90,
     },
     {
-      name: "React",
-      level: "92",
+      name: "Cosmetic",
+      amount: 70,
     },
     {
-      name: "Redux",
-      level: "67",
+      name: "Salon",
+      amount: 90,
     },
   ];
-
   return (
-    <Section id="skills">
+    <Section id="skills" ref={element}>
       <Title value="skills" />
       <div className="skills__title">
         <p>Our Skills</p>
@@ -34,15 +38,25 @@ const Skills = () => {
       </div>
       <div className="skills">
         <div className="skills__bars">
-          {skillsData.map(({ name, level }) => {
+          {skillsData.map(({ name, amount }) => {
             return (
-              <div className="skills__bars__bar" key={name}>
+              <motion.div
+                className="skills__bars__bar"
+                key={name}
+                variants={skillsBarAnimation}
+                animate={controls}
+                transition={{
+                  delay: 0.03,
+                  type: "tween",
+                  duration: 0.8,
+                }}
+              >
                 <div className="container">
-                  <progress value={level} max="100" />
+                  <progress value={amount} max="100" />
                   <span>{name}</span>
                 </div>
-                <h3>{level}%</h3>
-              </div>
+                <h3>{amount}%</h3>
+              </motion.div>
             );
           })}
         </div>
@@ -57,7 +71,7 @@ const Skills = () => {
       </div>
     </Section>
   );
-};
+}
 
 const Section = styled.section`
   min-height: 100vh;
@@ -139,6 +153,50 @@ const Section = styled.section`
       z-index: 2;
     }
   }
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
+    overflow-x: hidden;
+    padding: 2rem 0;
+    .background {
+      display: none;
+    }
+    .skills__title {
+      padding: 2rem;
+      text-align: center;
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+    .skills {
+      padding: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      &__bars {
+        padding: 0.2rem;
+        gap: 0rem;
+        align-items: center;
+        justify-content: center;
+        &__bar {
+          .container {
+            gap: 1rem;
+            progress {
+              width: 12rem;
+              height: 0.5rem;
+              &::-webkit-progress-bar {
+                height: 0.3rem;
+              }
+            }
+          }
+          h3 {
+            font-size: 1rem;
+          }
+        }
+      }
+      &__content {
+        padding: 0 2rem;
+      }
+    }
+  }
 `;
-
 export default Skills;

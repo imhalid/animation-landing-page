@@ -1,53 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import logo from "assets/logo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { mdClose } from "react-icons/md";
-import { useState } from "react";
+import { MdClose } from "react-icons/md";
+import { useScroll } from "components/useScroll";
+import { motion } from "framer-motion";
+import { navAnimation } from "animation";
 
-const Navbar = () => {
-  const [isNavOpen, setNavOpen] = useState(false);
+function Navbar() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [element, controls] = useScroll();
   return (
-    <Nav>
+    <Nav
+      ref={element}
+      variants={navAnimation}
+      transition={{ delay: 0.1 }}
+      animate={controls}
+      state={isNavOpen ? 1 : 0}
+    >
       <div className="brand__container">
-        <a href="#home" className="brand">
+        <a href="#" className="brand">
           <img src={logo} alt="logo" />
         </a>
-        <div className="toggle"></div>
+        <div className="toggle">
+          {isNavOpen ? (
+            <MdClose onClick={() => setIsNavOpen(false)} />
+          ) : (
+            <GiHamburgerMenu
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsNavOpen(true);
+              }}
+            />
+          )}
+        </div>
       </div>
-      <div className="links">
+      <div className={`links ${isNavOpen ? "show" : ""}`}>
         <ul>
           <li className="active">
             <a href="#home">Home</a>
           </li>
-          <li className="active">
+          <li>
             <a href="#services">Services</a>
           </li>
-          <li className="active">
+          <li>
             <a href="#portfolio">Portfolio</a>
           </li>
-          <li className="active">
+          <li>
             <a href="#blog">Blog</a>
           </li>
-          <li className="active">
+          <li>
             <a href="#skills">Skills</a>
           </li>
-          <li className="active">
+          <li>
             <a href="#contact">Contact</a>
           </li>
         </ul>
       </div>
     </Nav>
   );
-};
+}
 
-const Nav = styled.nav`
+const Nav = styled(motion.nav)`
   display: flex;
   justify-content: space-between;
   margin: 0 2rem;
-  color: #a2f3;
+  color: #fff;
   padding-top: 2rem;
-  .brand_container {
+  .brand__container {
     margin: 0 2rem;
     .toggle {
       display: none;
@@ -65,18 +85,51 @@ const Nav = styled.nav`
       }
       li {
         a {
-          color: #a23;
+          color: #fff;
           text-decoration: none;
           font-weight: 400;
           font-size: 0.9rem;
           text-transform: uppercase;
-          transition: all 0.3s ease-in-out;
-
-     }
-     a:hover {
-            color: #a2f3;
-            
-          }
+        }
+      }
+    }
+  }
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
+    margin: 0;
+    position: relative;
+    .brand__container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      .toggle {
+        padding-right: 1rem;
+        display: block;
+        z-index: 1;
+      }
+    }
+    .show {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    .links {
+      position: absolute;
+      overflow-x: hidden;
+      top: 0;
+      right: 0;
+      width: ${({ state }) => (state ? "100%" : "0%")};
+      height: 100vh;
+      background-color: var(--secondary-color);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.4s ease-in-out;
+      ul {
+        flex-direction: column;
+        text-align: center;
+        height: 100%;
+        justify-content: center;
+      }
+    }
   }
 `;
 

@@ -9,27 +9,71 @@ import portfolio7 from "assets/portfolio7.jpg";
 import portfolio8 from "assets/portfolio8.jpg";
 import portfolio9 from "assets/portfolio9.jpg";
 import portfolio10 from "assets/portfolio10.jpg";
+import { motion } from "framer-motion";
+import { useScroll } from "./useScroll";
+import { portfolioAnimations } from "animation";
 
-const Portfolio = () => {
+function Portfolio() {
+  const [element, controls] = useScroll();
   return (
-    <Section id="portfolio">
+    <Section id="portfolio" ref={element}>
       <div className="grid">
-        <div className="child-one grid-box"></div>
-        <div className="child-two grid-box"></div>
-        <div className="child-three grid-box"></div>
-        <div className="child-four grid-box"></div>
-        <div className="child-five grid-box"></div>
-        <div className="child-six grid-box"></div>
-        <div className="child-seven grid-box"></div>
-        <div className="child-eight grid-box"></div>
+        <motion.div
+          variants={portfolioAnimations}
+          animate={controls}
+          transition={{ delay: 0.03, type: "tween", duration: 0.8 }}
+          className="child-one grid-box"
+        ></motion.div>
+        <motion.div
+          variants={portfolioAnimations}
+          animate={controls}
+          transition={{ delay: 0.03, type: "tween", duration: 0.8 }}
+          className="child-two grid-box"
+        ></motion.div>
+        <motion.div
+          variants={portfolioAnimations}
+          animate={controls}
+          transition={{ delay: 0.03, type: "tween", duration: 0.8 }}
+          className="child-three grid-box"
+        ></motion.div>
+        <motion.div
+          variants={portfolioAnimations}
+          animate={controls}
+          transition={{ delay: 0.03, type: "tween", duration: 0.8 }}
+          className="child-four grid-box"
+        ></motion.div>
+        <motion.div
+          variants={portfolioAnimations}
+          animate={controls}
+          transition={{ delay: 0.03, type: "tween", duration: 0.8 }}
+          className="child-five grid-box"
+        ></motion.div>
+        <motion.div
+          variants={portfolioAnimations}
+          animate={controls}
+          transition={{ delay: 0.03, type: "tween", duration: 0.8 }}
+          className="child-six grid-box"
+        ></motion.div>
+        <motion.div
+          variants={portfolioAnimations}
+          animate={controls}
+          transition={{ delay: 0.03, type: "tween", duration: 0.8 }}
+          className="child-seven grid-box"
+        ></motion.div>
+        <motion.div
+          variants={portfolioAnimations}
+          animate={controls}
+          transition={{ delay: 0.03, type: "tween", duration: 0.8 }}
+          className="child-eight grid-box"
+        ></motion.div>
       </div>
       <div className="portfolio-more">
         <span>Load More</span>
-        <img src={loadmore} alt="loadmore" />
+        <img src={loadmore} alt="Load More" />
       </div>
     </Section>
   );
-};
+}
 
 const Section = styled.section`
   min-height: 100vh;
@@ -37,7 +81,7 @@ const Section = styled.section`
   background-color: var(--secondary-color);
   .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
       "one one two two"
       "one one three four"
@@ -108,5 +152,24 @@ const Section = styled.section`
       text-transform: uppercase;
     }
   }
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
+    .grid {
+      padding: 0;
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "one"
+        "two"
+        "three"
+        "four"
+        "five"
+        "six"
+        "seven"
+        "eight";
+      .grid-box {
+        height: 25rem !important;
+      }
+    }
+  }
 `;
+
 export default Portfolio;

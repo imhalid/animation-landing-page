@@ -1,22 +1,45 @@
 import React from "react";
 import styled from "styled-components";
-import { BsFacebook, BsInstagram, BsTwitter, BsBehance } from "react-icons/bs";
+import { BsFacebook, BsTwitter, BsYoutube, BsBehance } from "react-icons/bs";
+import { motion } from "framer-motion";
+import { useScroll } from "./useScroll";
+import { footerTextAnimation } from "animation";
 
-const Footer = () => {
+function Footer() {
+  const [element, controls] = useScroll();
   return (
-    <Foot>
-      <span>&copy; React Website Transition Animation</span>
-      <div className="footer__social__icons">
+    <Foot ref={element}>
+      <motion.span
+        variants={footerTextAnimation}
+        animate={controls}
+        transition={{
+          delay: 0.02,
+          type: "tween",
+          duration: 0.8,
+        }}
+      >
+        &copy; React Website Transition Animation
+      </motion.span>
+      <motion.div
+        className="footer__social__icons"
+        variants={footerTextAnimation}
+        animate={controls}
+        transition={{
+          delay: 0.02,
+          type: "tween",
+          duration: 0.8,
+        }}
+      >
         <BsFacebook />
-        <BsInstagram />
         <BsTwitter />
+        <BsYoutube />
         <BsBehance />
-      </div>
+      </motion.div>
     </Foot>
   );
-};
+}
 
-const Foot = styled.footer`
+const Foot = styled(motion.footer)`
   background-color: var(--primary-color);
   color: #fff;
   display: flex;
@@ -29,11 +52,18 @@ const Foot = styled.footer`
     svg {
       font-size: 1.4rem;
       cursor: pointer;
-      transition: all 0.3s ease-in-out;
+      transition: 0.5s ease-in-out;
       &:hover {
         color: var(--secondary-color);
       }
     }
   }
+  @media screen and (min-width: 280px) and (max-width: 1080px) {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
 `;
+
 export default Footer;
